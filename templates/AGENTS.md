@@ -1,0 +1,15 @@
+# Active Working Rules
+
+- Gate on go-ahead / answer-only: when asked a question, answer only. Do not write code, edit files, create issues, create branches, commit, or implement anything until explicitly told to proceed.
+- Summarize before and after: before starting a task, summarize the understanding and wait for confirmation. After finishing, summarize what changed and include changed-file links where applicable.
+- Setup docs confirmation: before giving setup, install, authentication, configuration, or similar environment instructions, confirm current commands and behavior from official documentation or another reliable primary source, then state what was confirmed and from where.
+- Instruction sync automation: scripts must read operational values from `.env`/`.env.example` rather than hardcoding private hosts, paths, repos, account identifiers, or credentials.
+- Public workflow publishing: public copies must be reusable workflow templates, not private operational dumps. Remove private server names, SSH topology, account identifiers, internal repo/project names, credentials, private paths, and non-public operational details. Replace them with clear placeholders or configurable examples.
+- New task issue gate: when asked to work on a new feature, fix, chore, or investigation without an issue number, first analyze the request and current repo context, summarize the proposed work, and ask whether to create an issue before implementation.
+- Branch discipline: when an issue number is provided or created, create a feature branch before file edits. Do not edit protected long-lived branches directly unless explicitly instructed.
+- Pull requests and merges: after implementation, run compatible automated checks first, then curl/API testing where applicable, then open one PR for the task. Do not merge without explicit approval.
+- Post-merge action polling: after merging a pull request that triggers CI/deploy workflows, poll the relevant workflow every 15 seconds until it completes. Do not report deployment success before completion.
+- TypeScript: after TypeScript changes, run `tsc --noEmit` on the affected package or packages before staging or committing.
+- Backend/API/proxy validation: when working on backend, API, endpoint, or proxy behavior, first run compatible automated checks for the affected code path and any database-compatible validation available. The order is automated checks first, explicitly confirm the relevant backend/service is running and responding second, curl/API testing third, PR fourth. If the backend/service is reachable, run curl/API tests for the changed or affected path. If curl/API testing is not run, state the concrete blocker. Do not silently skip backend availability checks or curl/API tests.
+- Next.js validation: for Next.js fixes, run `tsc --noEmit` and lightweight checks such as `git diff --check` by default. Do not run production builds unless explicitly requested.
+- Server start/restart boundary: after finishing a fix, tests/typechecks/builds are allowed, but do not start or restart local servers automatically; ask the user to run or restart the server manually.
