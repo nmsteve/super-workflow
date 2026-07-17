@@ -1,16 +1,40 @@
 # Super Workflow
 
-Reusable AI agent workflow instructions, validation rules, and sync templates for teams that use Codex, Claude Code, or similar coding agents.
+Reusable workflow instructions for AI coding agents.
 
-This repository is designed to be public-safe. Put private hosts, paths, repo URLs, account IDs, and organization-specific names in `.env`, not in committed files.
+Super Workflow is a public-safe template for teams and solo developers who use tools like Codex, Claude Code, or other agentic coding assistants. It turns repeated process expectations into durable instructions: when to ask before acting, how to validate backend/API changes, how to avoid skipped tests, and how to publish reusable workflow rules without leaking private operational details.
 
-## What This Provides
+The project started from a real developer workflow: keep the agent aligned with the developer's process, reduce ambiguous handoffs, and make "done" mean checked, verified, and clearly reported.
 
-- Portable `AGENTS.md` and `CLAUDE.md` instruction templates.
-- Backend/API/proxy validation rules that require automated checks, service availability checks, and curl/API testing when reachable.
-- Setup guidance that tells agents to confirm install/auth/config commands from official docs before answering.
-- Scripts that read operational values from `.env` instead of hardcoding private details.
-- A sanitization step for publishing a reusable public copy.
+## Why It Exists
+
+AI coding agents are useful, but they drift when instructions are vague or only live in chat history. Common failure modes include:
+
+- implementing before the user approved the plan;
+- skipping backend availability checks before curl/API testing;
+- giving setup/auth instructions from stale memory instead of official docs;
+- mixing private server sync details into public templates;
+- reporting "done" without enough validation detail.
+
+Super Workflow gives those expectations a reusable shape.
+
+## What Is Included
+
+- `templates/AGENTS.md`: durable rules for Codex and other agents that read `AGENTS.md`.
+- `templates/CLAUDE.md`: Claude Code-compatible wrapper that imports `AGENTS.md`.
+- `templates/interaction-rules.md`: hook-style version of the same working rules.
+- `scripts/build-public.sh`: builds public workflow files from templates by default.
+- `scripts/sanitize-public.sh`: blocks likely private operational details before publishing.
+- `scripts/publish-public.sh`: publishes generated public workflow files to a configured repository.
+- `.env.example`: all local/private configuration lives in `.env`, not in committed files.
+
+## Core Principles
+
+- **Ask before acting:** planning and implementation stay separate unless the user gives a clear go-ahead.
+- **Verify before reporting:** tests, typechecks, service checks, and curl/API checks happen in the right order.
+- **Docs before setup advice:** install, auth, and configuration guidance should be checked against current official docs or another primary source.
+- **Configuration over hardcoding:** operational values belong in `.env`.
+- **Public-safe publishing:** reusable output must not contain private hosts, internal repo names, account identifiers, credentials, or private paths.
 
 ## Quick Start
 
@@ -18,37 +42,90 @@ This repository is designed to be public-safe. Put private hosts, paths, repo UR
 cp .env.example .env
 ```
 
-Edit `.env` with local paths and any private terms that must be redacted.
+Edit `.env` for your local environment.
 
 ```bash
 ./scripts/build-public.sh
 ```
 
-If you configured `PUBLIC_REPO_URL`, publish with:
+Review the generated files:
+
+```bash
+ls public
+```
+
+If `PUBLIC_REPO_URL` is configured and the output is clean:
 
 ```bash
 ./scripts/publish-public.sh
 ```
 
-## Agent Instructions
+## Using With Codex
 
-When an AI agent sets up this workflow:
+Codex reads `AGENTS.md` automatically when it is present in a repository, and can also use a global `~/.codex/AGENTS.md`.
 
-1. Inspect `.env.example`.
-2. Create or update `.env` with local values.
-3. Keep `.env` uncommitted.
-4. Run `./scripts/build-public.sh`.
-5. Review generated files under `public/` for private details before publishing.
-6. Run `./scripts/publish-public.sh` only after the public output is clean.
+For a repo-level setup:
+
+```bash
+cp templates/AGENTS.md /path/to/your-project/AGENTS.md
+```
+
+For a global personal setup:
+
+```bash
+mkdir -p ~/.codex
+cp templates/AGENTS.md ~/.codex/AGENTS.md
+```
+
+## Using With Claude Code
+
+Claude Code reads `CLAUDE.md`. The template imports `AGENTS.md` so shared rules can stay in one place:
+
+```md
+@AGENTS.md
+```
+
+For a repo-level setup:
+
+```bash
+cp templates/AGENTS.md /path/to/your-project/AGENTS.md
+cp templates/CLAUDE.md /path/to/your-project/CLAUDE.md
+```
+
+## Backend/API/Proxy Validation Rule
+
+The template is intentionally strict about backend work:
+
+1. Run compatible automated checks first.
+2. Explicitly confirm the relevant backend/service is running and responding.
+3. Run curl/API tests for changed or affected paths when reachable.
+4. If curl/API testing cannot run, report the concrete blocker.
+
+This rule exists because "tests passed" is not enough when the changed behavior lives behind a running service or proxy.
 
 ## Public Safety
 
 Do not commit:
 
-- Real server names or SSH topology.
-- Internal repo or project names.
-- Account IDs, user emails, credentials, tokens, or secrets.
-- Private local paths.
-- Organization-specific operational details that should not be reusable.
+- real server names or SSH topology;
+- internal repo or project names;
+- account IDs, user emails, credentials, tokens, or secrets;
+- private local paths;
+- organization-specific operational details that should not be reusable.
 
 Use placeholders such as `SOURCE_HOST`, `TARGET_HOSTS`, `PUBLIC_REPO_URL`, and `PRIVATE_TERMS`.
+
+## Project Status
+
+This is an early public template. The goal is to make agent workflow discipline easier to copy, adapt, and improve across projects.
+
+Contributions are welcome, especially:
+
+- workflow rules that reduce real agent failure modes;
+- portable examples for Codex, Claude Code, and similar tools;
+- safer sanitization checks;
+- clearer validation/reporting templates.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
