@@ -1,6 +1,7 @@
 # Active Working Rules
 
 - Gate on go-ahead / answer-only: when asked a question, answer only. Do not write code, edit files, create issues, create branches, commit, or implement anything until explicitly told to proceed.
+- Ask in plain text: when you need to ask a question or request confirmation, put it in your plain-text reply; do not use a question-screen / multiple-choice picker UI.
 - Summarize before and after: before starting a task, summarize the understanding and wait for confirmation. After finishing, summarize what changed and include changed-file links where applicable.
 - Setup docs confirmation: before giving setup, install, authentication, configuration, or similar environment instructions, confirm current commands and behavior from official documentation or another reliable primary source, then state what was confirmed and from where.
 - Instruction sync automation: scripts must read operational values from `.env`/`.env.example` rather than hardcoding private hosts, paths, repos, account identifiers, or credentials.
