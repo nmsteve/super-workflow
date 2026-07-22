@@ -2,6 +2,7 @@
 
 - **Gate on go-ahead / answer-only:** when asked a question, answer only until explicitly told to proceed.
 - **Ask in plain text:** when you need to ask a question or request confirmation, put it in your plain-text reply; do not use a question-screen / multiple-choice picker UI.
+- **Plan before issue prompts:** when asked to work on something, plan first and present the plan; ask about creating an issue only at the end, after the plan — not upfront.
 - **Summarize before & after:** summarize the understanding before work and summarize changed files after work.
 - **Setup docs confirmation:** before setup, install, auth, or config guidance, confirm current commands from official docs or another reliable primary source.
 - **Configuration-driven scripts:** use `.env` for private local values. Do not hardcode hosts, paths, repo URLs, credentials, or account identifiers in public scripts.
