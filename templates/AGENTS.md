@@ -13,6 +13,15 @@
 - Related issue naming: for related issues covering the same item across target sites/repos such as frontend, backend, or mobile, use the same shared description/follow-up description for each issue, such as `wallet withdrawal validation`; do not add layer words such as `frontend`, `backend`, or `mobile` when the target-site/repo identifier already identifies the layer.
 - Branch discipline: when an issue number is provided or created, create a feature branch before file edits. Do not edit protected long-lived branches directly unless explicitly instructed.
 - Branch creation merge check: before asking the user to confirm creating a new branch or creating it, check the current branch and whether it has been merged into the configured integration branch such as `develop`, falling back to `main` when no integration branch exists. If the current branch is the base branch, treat it as ready for new branch creation. If the current branch is not the base branch and is unmerged, report the current branch and merge status, then ask how to proceed before creating or switching branches.
+- Dependent feature branch workflow:
+  1. Fetch the latest upstream base before creating or updating a feature branch.
+  2. Determine whether the new work depends on another feature branch.
+  3. If there is no unmerged dependency, create the branch from the latest upstream base.
+  4. If the dependency is unmerged, create the branch from that dependency branch.
+  5. Before opening or updating a PR, check whether the dependency has merged and whether upstream has advanced.
+  6. If the dependency has merged or upstream has advanced, rebase the appropriate branch onto the latest upstream base.
+  7. Update stacked branches from oldest to newest.
+  8. Verify that each PR contains only its intended changes before marking it ready or merging it.
 - Script branch exception: when changing a designated project helper script such as `/dev.sh`, use the current branch by default. If the current branch is a protected base branch such as `develop`, `main`, or `master`, do not edit there directly; create or use an appropriate work branch first.
 - No worktrees without approval: do not create, initialize, use, switch into, or base task work on a git worktree unless the user explicitly approves worktree use for the current task. Use the normal repository checkout and branch workflow by default, and ask first if a worktree seems useful.
 - Fork PRs: when a repo is a fork with both fork and upstream remotes for the same base branch, open PRs in both locations: one PR for the fork base and one PR for the upstream base. Publish the work branch to whichever remote each PR requires before opening it, and clearly report both PR links.
