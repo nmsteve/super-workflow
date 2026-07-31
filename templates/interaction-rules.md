@@ -8,7 +8,7 @@
 - **Configuration-driven scripts:** use `.env` for private local values. Do not hardcode hosts, paths, repo URLs, credentials, or account identifiers in public scripts.
 - **Public-safe publishing:** public workflow output must be useful as a reusable template and must not include private operational details.
 - **Public workflow publishing after rule updates:** after every global/working instruction rule update, also update and push the configured public workflow repository when the change is reusable and public-safe, even if the public wording needs later refinement, so changes are retained remotely. If the rule contains private operational details or is not appropriate for public reuse, do not publish it publicly and state why.
-- **Session rename suggestion:** after creating and publishing an issue branch, optionally suggest renaming the current session to match the exact branch name by showing `/rename <branch-name>`. Under the standard branch convention, this is `/rename <issue-number>-<short-description>`. Never execute the rename automatically, and do not change the established branch naming convention.
+- **Session rename gate:** after creating and publishing an issue branch, stop before implementation and say, “Copy and run the command below to rename this session.” Show `/rename <exact-branch-name>` on its own line. Do not continue until the user sends the rename command, confirms the rename, or explicitly says `skip`. Never execute the rename automatically, and do not change the established branch naming convention.
 - **Dependent feature branch workflow:**
   1. Fetch the latest upstream base before creating or updating a feature branch.
   2. Determine whether the new work depends on another feature branch.
