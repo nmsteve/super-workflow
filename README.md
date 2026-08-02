@@ -12,6 +12,7 @@ AI coding agents are useful, but they drift when instructions are vague or only 
 
 - implementing before the user approved the plan;
 - skipping backend availability checks before curl/API testing;
+- rebuilding a production container with development or localhost environment values;
 - giving setup/auth instructions from stale memory instead of official docs;
 - mixing private server sync details into public templates;
 - reporting "done" without enough validation detail.
@@ -33,6 +34,7 @@ Super Workflow gives those expectations a reusable shape.
 - **Ask before acting:** planning and implementation stay separate unless the user gives a clear go-ahead.
 - **Verify before reporting:** tests, typechecks, service checks, and curl/API checks happen in the right order.
 - **Docs before setup advice:** install, auth, and configuration guidance should be checked against current official docs or another primary source.
+- **Production environment validation:** compare Docker production builds with the canonical deployment environment and verify build-time values before rollout.
 - **Configuration over hardcoding:** operational values belong in `.env`.
 - **Public-safe publishing:** reusable output must not contain private hosts, internal repo names, account identifiers, credentials, or private paths.
 
@@ -102,6 +104,18 @@ The template is intentionally strict about backend work:
 4. If curl/API testing cannot run, report the concrete blocker.
 
 This rule exists because "tests passed" is not enough when the changed behavior lives behind a running service or proxy.
+
+## Production Docker Environment Validation
+
+Before rebuilding or recreating a production Docker Compose service:
+
+1. Identify the canonical production deployment environment.
+2. Compare its required URLs, hosts, API endpoints, and Socket/WebSocket endpoints with the proposed build environment.
+3. Reject `localhost`, loopback addresses, development domains, and blank required values in production configuration.
+4. If the frontend can inline environment variables during its build, inspect the generated production bundle for incorrect values.
+5. Test the affected frontend, API, and Socket/WebSocket endpoints before reporting deployment success.
+
+This check is especially important when the Docker build context is a development checkout whose `.env` may differ from the canonical production deployment.
 
 ## Public Safety
 
