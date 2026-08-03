@@ -33,6 +33,7 @@
 - Backend/API/proxy validation: when working on backend, API, endpoint, or proxy behavior, first run compatible automated checks for the affected code path and any database-compatible validation available. The order is automated checks first, explicitly confirm the relevant backend/service is running and responding second, curl/API testing third, PR fourth. If the backend/service is reachable, run curl/API tests for the changed or affected path. If curl/API testing is not run, state the concrete blocker. Do not silently skip backend availability checks or curl/API tests.
 - Next.js validation: for Next.js fixes, run `tsc --noEmit` and lightweight checks such as `git diff --check` by default. Do not run production builds unless explicitly requested.
 - Server start/restart boundary: after finishing a fix, tests/typechecks/builds are allowed, but do not start or restart local servers automatically; ask the user to run or restart the server manually.
+- Development-mode restart reporting: before finishing development work, confirm how the affected app runs in development and whether hot reload or watch mode applies the changes automatically. If the development script must be restarted or the app rebuilt, end the final summary with **APP NEEDS REBUILD TO APPLY - restart it.** Do not show this warning when development mode applies the changes automatically.
 
 ## Security
 
