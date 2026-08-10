@@ -35,7 +35,7 @@ Run:
 Run:
 
 ```bash
-bash -n scripts/build-public.sh scripts/sanitize-public.sh scripts/publish-public.sh
+bash -n scripts/build-public.sh scripts/sanitize-public.sh scripts/publish-public.sh scripts/rename-codex-session.sh
 ```
 
 If you change public-facing output, inspect `public/` before committing.

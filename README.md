@@ -24,6 +24,7 @@ Super Workflow gives those expectations a reusable shape.
 - `templates/CLAUDE.md`: Claude Code-compatible wrapper that imports `AGENTS.md`.
 - `templates/interaction-rules.md`: hook-style version of the same working rules.
 - `scripts/build-public.sh`: builds public workflow files from templates by default.
+- `scripts/rename-codex-session.sh`: renames the active Codex session through the App Server protocol.
 - `scripts/sanitize-public.sh`: blocks likely private operational details before publishing.
 - `scripts/publish-public.sh`: publishes generated public workflow files to a configured repository.
 - `.env.example`: all local/private configuration lives in `.env`, not in committed files.
@@ -76,6 +77,21 @@ For a global personal setup:
 mkdir -p ~/.codex
 cp templates/AGENTS.md ~/.codex/AGENTS.md
 ```
+
+Install the session-renaming helper somewhere on your `PATH`:
+
+```bash
+mkdir -p ~/.local/bin
+ln -sfn "$(pwd)/scripts/rename-codex-session.sh" ~/.local/bin/codex-rename-session
+```
+
+The helper uses the `CODEX_THREAD_ID` exposed by an active Codex session and the version-matched App Server protocol. It requires `codex` and `jq`:
+
+```bash
+codex-rename-session my-feature-branch
+```
+
+When the helper is installed, the workflow templates direct the agent to rename the session automatically after publishing an issue branch. No manual `/rename` gate is required.
 
 ## Using With Claude Code
 
