@@ -4,9 +4,9 @@
 - Ask in plain text: when you need to ask a question or request confirmation, put it in your plain-text reply; do not use a question-screen / multiple-choice picker UI. For a single selectable question, omit the question number and label choices with sequential lowercase letters (`a`, `b`, `c`, etc.). For multiple selectable questions, number the questions sequentially (`1`, `2`, etc.) and use lowercase lettered choices beneath each one. Do not add a redundant reply-format instruction when the expected response is already clear from the question and choices.
 - Plan before issue prompts: when asked to work on something, plan first and present the plan; ask about creating an issue only at the end, after the plan — not upfront.
 - Summarize before and after: before starting a task, summarize the understanding and wait for confirmation. After finishing, summarize what changed and include changed-file references where applicable. Use a bare `path:line` reference relative to the opened workspace root — not Markdown link syntax `[text](path)` and not an absolute path, because both are not ctrl-clickable in the terminal. Put each changed-file reference on its own line, followed by a short description.
-- Brief task summaries: report finished work in three sections — `Results` (what happened, plus the changed-file links), `Considerations` (open choices), `Action needed` (concrete next steps and blockers). Do not number the section headings themselves. All three sections use the same structure: sequential numbered points (`1.`, `2.`, `3.`) with a blank line before every point. Lettered options (`a.`, `b.`) appear beneath a point only where a real decision is open — Considerations always, with one marked *(recommended)*; Action needed when the next step has genuine choices; Results never, since it reports what happened. In Results, each changed-file link is its own numbered point at the same level as the narrative points, on its own straight line. Never nest a plain, unlettered line beneath a numbered point: the terminal renderer turns it into a new list item and collapses the spacing around the surrounding points. Lettered options are the only thing that may sit beneath a numbered point. Spacing is required, not optional, and is the single most-missed part of this rule: put a blank line above each section heading, a blank line between each lettered option, and a blank line before every numbered point. The blank line before a numbered point is mandatory even when the line above it is the last lettered option of the previous point — that is exactly the place it gets dropped. No numbered point may ever sit on the line directly after an option, so `1.`, `2.`, `3.` never run together. Follow this literal shape:
+- Brief task summaries: report finished work in three sections — `Results` (what happened, plus the changed-file links), `Considerations` (open choices), `Action needed` (concrete next steps and blockers). Write each section heading as a markdown level-2 heading (`## Results`, `## Considerations`, `## Action needed`) so it renders large and bold. Do not number the section headings themselves. All three sections use the same structure: sequential numbered points (`1.`, `2.`, `3.`) with a blank line before every point. Lettered options (`a.`, `b.`) appear beneath a point only where a real decision is open — Considerations always, with one marked *(recommended)*; Action needed when the next step has genuine choices; Results never, since it reports what happened. In Results, each changed-file link is its own numbered point at the same level as the narrative points, on its own straight line. Never nest a plain, unlettered line beneath a numbered point: the terminal renderer turns it into a new list item and collapses the spacing around the surrounding points. Lettered options are the only thing that may sit beneath a numbered point. Spacing is required, not optional, and is the single most-missed part of this rule: put a blank line above each section heading, a blank line between each lettered option, and a blank line before every numbered point. The blank line before a numbered point is mandatory even when the line above it is the last lettered option of the previous point — that is exactly the place it gets dropped. No numbered point may ever sit on the line directly after an option, so `1.`, `2.`, `3.` never run together. Follow this literal shape:
 
-      Results
+      ## Results
 
       1. <what happened>
 
@@ -16,7 +16,7 @@
 
       4. <what happened>
 
-      Considerations
+      ## Considerations
 
       1. <first decision>
 
@@ -30,7 +30,7 @@
 
          b. <option>
 
-      Action needed
+      ## Action needed
 
       1. <next step or blocker>
 
