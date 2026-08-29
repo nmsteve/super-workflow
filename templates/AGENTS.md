@@ -80,3 +80,5 @@
 ## Security
 
 - Temporary exposure cleanup: when opening or starting any service, port, tunnel, firewall rule, public listener, share, or other network exposure for a task, close/stop/restrict it after finishing unless the user explicitly asks to leave it open.
+
+- MongoDB Atlas IP rejection: when a MongoDB connection fails because the client IP is not allowed (Atlas `IP address ... is not whitelisted`, or a connection timeout against an Atlas cluster), first confirm the machine's current public IP, then resolve it by adding that IP as a specific `/32` entry in the cluster project's Atlas Network Access allowlist. Never add `0.0.0.0/0` or any broad range. Report which IP was added and to which Atlas project. A `/32` entry for the user's own development machine may stay; an entry added for any other host, CI runner, or temporary environment must be removed after the task under the temporary exposure cleanup rule.
