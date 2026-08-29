@@ -35,7 +35,7 @@ git clone "$PUBLIC_REPO_URL" "$workdir/repo"
 cd "$workdir/repo"
 git switch "$PUBLIC_REPO_BRANCH" 2>/dev/null || git switch -c "$PUBLIC_REPO_BRANCH"
 
-rsync -a --delete "$PUBLIC_OUTPUT_DIR"/ "$workdir/repo"/
+rsync -rlt --delete --exclude=".git/" "$PUBLIC_OUTPUT_DIR"/ "$workdir/repo"/
 
 git add .
 if git diff --cached --quiet; then
