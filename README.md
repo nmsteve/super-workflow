@@ -26,6 +26,7 @@ Super Workflow gives those expectations a reusable shape.
 - `templates/interaction-rules.md`: hook-style version of the same working rules.
 - `scripts/build-public.sh`: builds public workflow files from templates by default.
 - `scripts/rename-codex-session.sh`: renames the active Codex session through the App Server protocol.
+- `scripts/rename-claude-session.sh`: renames the active Claude Code session by writing its session file.
 - `scripts/sanitize-public.sh`: blocks likely private operational details before publishing.
 - `scripts/publish-public.sh`: publishes generated public workflow files to a configured repository.
 - `.env.example`: all local/private configuration lives in `.env`, not in committed files.
@@ -93,7 +94,7 @@ The helper uses the `CODEX_THREAD_ID` exposed by an active Codex session and the
 codex-rename-session my-feature-branch
 ```
 
-When the helper is installed, the workflow templates direct the agent to rename the session automatically after publishing an issue branch. No manual `/rename` gate is required.
+When the helper is installed, the workflow templates direct the agent to rename the session automatically after publishing an issue branch. No manual rename gate is required.
 
 ## Using With Claude Code
 
@@ -109,6 +110,26 @@ For a repo-level setup:
 cp templates/AGENTS.md /path/to/your-project/AGENTS.md
 cp templates/CLAUDE.md /path/to/your-project/CLAUDE.md
 ```
+
+Claude Code has no programmatic rename — `/rename`, `claude -n` and the session
+picker are all user-driven — so the Claude Code helper writes the name into the
+session's own file instead:
+
+```bash
+ln -sfn "$(pwd)/scripts/rename-claude-session.sh" ~/.local/bin/claude-rename-session
+```
+
+```bash
+claude-rename-session my-feature-branch
+```
+
+It resolves the session file by walking up the process tree, so run it from
+inside the session you want renamed. It needs only `bash` and `python3`. The
+running session merges its heartbeat into the file and preserves an externally
+written name, and the helper waits for that heartbeat to confirm the rename
+stuck — reporting a concrete failure instead of a silent success if a future
+version stops honouring it. The current terminal tab title keeps the old name
+until the session restarts.
 
 ## Backend/API/Proxy Validation Rule
 
