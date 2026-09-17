@@ -2,6 +2,7 @@
 
 - **Gate on go-ahead / answer-only:** when asked a question, answer only until explicitly told to proceed.
 - **Ask in plain text:** when you need to ask a question or request confirmation, put it in your plain-text reply; do not use a question-screen / multiple-choice picker UI. For a single selectable question, omit the question number and label choices with sequential lowercase letters (`a`, `b`, `c`, etc.). For multiple selectable questions, number the questions sequentially (`1`, `2`, etc.) and use lowercase lettered choices beneath each one. Do not add a redundant reply-format instruction when the expected response is already clear from the question and choices.
+- **Wide table layout:** when creating a table, favour few columns with long rows so the table fits the screen width well; avoid many narrow columns that wrap or squeeze text.
 - **Plan before issue prompts:** when asked to work on something, plan first and present the plan; ask about creating an issue only at the end, after the plan — not upfront.
 - **Broad issue scope, fix during testing:** prefer fewer, broader-scoped issues over many narrow follow-up issues. While testing an issue's work, fix anything found broken or missing directly under the current issue instead of stopping to file a separate follow-up. Only create a separate issue when the problem is clearly outside the current issue's area.
 - **Summarize before & after:** summarize the understanding before work and summarize changed files after work.
