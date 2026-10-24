@@ -8,37 +8,35 @@
 - Parallelise independent work: Run independent steps together, not one after another: before starting a task, identify the steps that do not depend on each other and run them in parallel (several tool calls in one message, or background agents) instead of sequentially. Keep steps that need an earlier step's result in order.
 - Hard rule — background agents for all work: run every piece of task work (investigation, file edits, builds, test runs, remote/server operations, syncs) in a background agent, where the tool supports background agents, so the main conversation stays free. The only exception is trivial one-shot reads, such as a single `grep` or `cat`, which may run inline. The main conversation only plans, asks, relays agent results, and summarizes. Relay each agent's result when it completes, and never predict or fabricate results that have not arrived.
 - Summarize before and after: before starting a task, summarize the understanding and wait for confirmation. After finishing, summarize what changed and include changed-file references where applicable. Use a bare `path:line` reference relative to the opened workspace root — not Markdown link syntax `[text](path)` and not an absolute path, because both are not ctrl-clickable in the terminal. Put each changed-file reference on its own line, followed by a short description.
-- Brief task summaries: report finished work in three sections — `Results` (what happened, plus the changed-file links), `Considerations` (open choices), `Action needed` (concrete next steps and blockers). Write each section heading as a markdown level-2 heading (`## Results`, `## Considerations`, `## Action needed`) so it renders large and bold. Do not number the section headings themselves. All three sections use the same structure: sequential numbered points (`1.`, `2.`, `3.`) with a blank line before every point. Lettered options (`a.`, `b.`) belong to Considerations and nowhere else, with one marked *(recommended)*. Anything that presents a choice goes under Considerations — including a step that needs the user's go-ahead before you act, which is a decision for them and belongs there, not in Action needed. Action needed carries only concrete next steps and blockers with no choice attached, so it never has lettered options; Results never has them either, since it reports what happened. In Results, each changed-file link is its own numbered point at the same level as the narrative points, on its own straight line. Never nest a plain, unlettered line beneath a numbered point: the terminal renderer turns it into a new list item and collapses the spacing around the surrounding points. Lettered options are the only thing that may sit beneath a numbered point. Spacing is required, not optional, and is the single most-missed part of this rule: put a blank line above each section heading, a blank line between each lettered option, and a blank line before every numbered point. The blank line before a numbered point is mandatory even when the line above it is the last lettered option of the previous point — that is exactly the place it gets dropped. No numbered point may ever sit on the line directly after an option, so `1.`, `2.`, `3.` never run together. Follow this literal shape:
+- Brief task summaries: report finished work in three sections — `Results` (what happened, plus the changed-file links), `Considerations` (open choices), `Action needed` (concrete next steps and blockers). Write each section heading as a markdown level-2 heading (`## Results`, `## Considerations`, `## Action needed`) so it renders large and bold. Do not number the section headings themselves. Do not use markdown ordered-list syntax for the points: a renderer parses `1.` `2.` `3.` as a single list and draws the items tight, collapsing any blank lines between them in the source, which is why summaries kept arriving packed. Instead write each point as its own paragraph beginning with a bold number — `**1.**`, `**2.**`, `**3.**` — with a blank line between points, so each renders as a separate paragraph with real vertical space. Lettered options take the same form, `**a.**` and `**b.**`, each its own paragraph indented by three spaces — never four, which would make a code block. Lettered options belong to Considerations and nowhere else, with one marked *(recommended)*. Anything that presents a choice goes under Considerations — including a step that needs the user's go-ahead before you act, which is a decision for them and belongs there, not in Action needed. Action needed carries only concrete next steps and blockers with no choice attached, so it never has lettered options; Results never has them either, since it reports what happened. In Results, each changed-file link is its own point at the same level as the narrative points, on its own straight line. Before sending, re-read the drafted summary and confirm that every point is a paragraph starting with a bold number and that a blank line separates every pair of points; fix any that are packed. A packed summary is wrong even when its content is right. All three sections use this same form — Results, Considerations and Action needed alike. The place spacing most often collapses is the return from a last lettered option back to the next numbered point, so `**b.**` is never followed directly by `**2.**`: that transition takes a blank line like every other, and because both are paragraphs rather than list items the number cannot be pulled back into the option above it. Follow this literal shape:
 
       ## Results
 
-      1. <what happened>
+      **1.** <what happened>
 
-      2. [file.ts](/abs/path/file.ts:12) - <short description>
+      **2.** [file.ts](/abs/path/file.ts:12) - <short description>
 
-      3. [other.ts](/abs/path/other.ts:40) - <short description>
-
-      4. <what happened>
+      **3.** [other.ts](/abs/path/other.ts:40) - <short description>
 
       ## Considerations
 
-      1. <first decision>
+      **1.** <first decision>
 
-         a. <option> *(recommended)*
+         **a.** <option> *(recommended)*
 
-         b. <option>
+         **b.** <option>
 
-      2. <second decision>
+      **2.** <second decision>
 
-         a. <option> *(recommended)*
+         **a.** <option> *(recommended)*
 
-         b. <option>
+         **b.** <option>
 
       ## Action needed
 
-      1. <next step or blocker>
+      **1.** <next step or blocker>
 
-      2. <next step or blocker>
+      **2.** <next step or blocker>
  Terse throughout; no preamble or restatement. Use `None.` for an empty section. Only raise a Consideration where a real decision is open — do not manufacture choices.
 - Design confirmation gate: for design work, first create a sketch or wireframe when practical, present it to the user, and receive explicit confirmation before implementing the final design.
 - Setup docs confirmation: before giving setup, install, authentication, configuration, or similar environment instructions, confirm current commands and behavior from official documentation or another reliable primary source, then state what was confirmed and from where.
