@@ -33,7 +33,7 @@ Super Workflow gives those expectations a reusable shape.
 ## Core Principles
 
 - **Ask before acting:** planning and implementation stay separate unless the user gives a clear go-ahead.
-- **Verify before reporting:** tests, typechecks, service checks, and curl/API checks happen in the right order.
+- **Verify before reporting:** run compatible automated checks first. Run curl/API tests only when requested.
 - **Docs before setup advice:** install, auth, and configuration guidance should be checked against current official docs or another primary source.
 - **Production environment validation:** compare Docker production builds with the canonical deployment environment and verify build-time values before rollout.
 - **Configuration over hardcoding:** operational values belong in `.env`.
@@ -112,14 +112,14 @@ cp templates/CLAUDE.md /path/to/your-project/CLAUDE.md
 
 ## Backend/API/Proxy Validation Rule
 
-The template is intentionally strict about backend work:
+Always run compatible automated checks before opening the PR. Run curl/API tests only when the user requests them.
 
-1. Run compatible automated checks first.
-2. Explicitly confirm the relevant backend/service is running and responding.
-3. Run curl/API tests for changed or affected paths when reachable.
-4. If curl/API testing cannot run, report the concrete blocker.
+When curl/API tests are requested:
 
-This rule exists because "tests passed" is not enough when the changed behavior lives behind a running service or proxy.
+1. Run the automated checks.
+2. Confirm that the relevant service is running and responding.
+3. Run curl/API tests for the affected paths when the service is reachable.
+4. Inspect matching execution logs when available and report any blockers to requested validation.
 
 ## Production Docker Environment Validation
 
