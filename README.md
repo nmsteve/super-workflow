@@ -110,6 +110,15 @@ cp templates/AGENTS.md /path/to/your-project/AGENTS.md
 cp templates/CLAUDE.md /path/to/your-project/CLAUDE.md
 ```
 
+## Local PR Review
+
+The agent that implements the change runs the local review for the PR:
+
+- **Claude Code:** Run `/code-review` from the PR branch.
+- **Codex:** Use local Codex review, for example `codex review --base <base>` from the PR branch. Use the current PR target ref for `<base>`, such as `origin/main`.
+
+Fix local review findings and push the fixes before merging. GitHub bot reviews run asynchronously and never gate the merge.
+
 ## Backend/API/Proxy Validation Rule
 
 Always run compatible automated checks before opening the PR. Run curl/API tests only when the user requests them.

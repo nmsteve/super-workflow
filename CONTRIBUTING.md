@@ -45,4 +45,5 @@ If you change public-facing output, inspect `public/` before committing.
 - Explain the workflow problem being solved.
 - Keep the change portable.
 - Mention any validation performed.
+- Run the implementing agent’s local review and fix its findings before merging. See [Local PR Review](README.md#local-pr-review).
 - Avoid unrelated rewrites.
